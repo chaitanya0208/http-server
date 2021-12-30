@@ -8,6 +8,8 @@ To start the server : "bash start.sh <port_number>"
 
 To stop the server : "bash stop.sh"
 
+To start auto testing of the server : "test.py"
+
 # Details
 Methods implemented : GET, HEAD, POST, PUT, DELETE
 
