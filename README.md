@@ -3,12 +3,16 @@ Implemented with reference to RFC 2616 using Python3
 
 # Usage
 On terminal after getting to the directory
+
 To start the server : "bash start.sh <port_number>"
+
 To stop the server : "bash stop.sh"
 
 # Details
 Methods implemented : GET, HEAD, POST, PUT, DELETE
+
 Status codes returned on call to any of the method depend on state of the server
+
 Status Codes : 200, 201, 204, 206, 304, 400, 403, 404, 405, 406, 412, 413, 414, 415, 416, 500, 501, 505
 
 # Basic Idea
