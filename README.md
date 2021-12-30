@@ -50,4 +50,4 @@ Taken care of all conditions like forbidden where users are unauthorised, file n
 
 # Reference
 
-RFC, GFG
+RFC2616, GFG, Tutorials Point, Morzilla MDN docs and various online resources
