@@ -17,21 +17,35 @@ Status Codes : 200, 201, 204, 206, 304, 400, 403, 404, 405, 406, 412, 413, 414, 
 
 # Basic Idea
 while(True){
+
 Parse the request obtained;
+
 Check for method to be used:
-  if (method allowed) and (http-version supported) :
-    proceed:
-      check for headers present in the request
-      provide required headers in reponse
-      with suitable status code
-      if connection requested is persistent then:
-        continue
-      else:
-        connection close
+
+if (method allowed) and (http-version supported) :
+
+  proceed:
+  
+  check for headers present in the request
+  
+  provide required headers in reponse
+  
+  with suitable status code
+  
+  if connection requested is persistent then:
+  
+   continue
+   
+   else:
+   
+    connection close
+  
   else:
-    some status code
+  
+   some status code
 
 Taken care of all conditions like forbidden where users are unauthorised, file not found, if partially modified then send that amount of data(Range header), etc 
 
 # Reference
+
 RFC, GFG
