@@ -1,0 +1,162 @@
+HEADERS :
+
+HTTP Headers are of four types :
+	1. General headers 
+	2. Request headers
+	3. Response headers
+	4. Entity headers
+
+Format => header_name : field_value
+Field_value should be case insensitive, can contain any number of LWS before and after.
+Follow the sequence while sending headers i.e general, request/reponse,entity.
+Multiple message-header fields with same value may be present in msg iff entire field-value for that is defined as comma separated list.
+:
+
+1. General header field:
+
+Unrecognized header fields are considered as entity header fields.
+
+general-header = 
+
+	*Connection : close 
+	#connection should not be considered persistent after current request/response is complete.
+
+	*Date : Tue, 14 Oct 2021 08:12:31 GMT.
+	If response status code is 100(Continue) or 101(Switching Protocols), then the response may include a date header field.Otherwise it is MUST
+
+	Pragma: 
+	
+	Trailer : 
+	indicates that the given set of header field is present in the trailer of msg encoded with chunked transfer-coding.Trailer header field must not include :Transfer-Encoding, Content-Length, Trailer.
+
+	*Transfer-Encoding: chunked | compress | deflate | gzip
+	Type of transformation that has been applied to msg body.
+	chunked : Data sent in series of chunks. Content length is ommitted in this case and at beginning of each chunk you need to add the length of current chunk.
+	gzip : Browers should recog x-gzip.
+
+	Upgrade: 
+	
+	Via:
+
+	Warning:
+
+
+2. Requests header field: 
+	Unrecognized header fields are considered as entity-header fields. q=0 means not acceptable.
+	
+	*Accept: text/html;q=0.8, ...., .... i.e (type/subtype); with 80% mark-down quality.
+	 Media types that are acceptable for response. "*/*"- all media types and "type/*"- all suzbtypes of that type.	If no accept header present then client accepts all media types. If server cant send media type then 406 status code.Remember the priorities of media type when separated by commas.
+
+	*Accept-Charset: iso-8859-5, unicode-1-1;q=0.8
+	Character sets acceptable for response. If not possible for server then 406. though unacceptable response can be sent.
+
+	*Accept-Encoding: 
+	If it contains encoding from content-coding list then accepted. If multiple are acceptable then highest qvalue is preffered. If no accept-encoding field present then serever can send any acceptable encoding. 
+
+	*Accept-Language: da, en-gb;q=0.8, en;q=0.7
+	Here da has 1st priority, then en-gb, then en. Decide according to the weights.
+
+	Authorization: credentials
+	After recieving 401 response , so this header field is included. Also remember about verifying data from cache.
+
+	Expect: "100-continue" (To recieve continious data) #Not done commonly 
+	The Expect request-header field is used to indicate that particular server behaviors are required by the client	
+	From: mehereca19.comp@coep.ac.in
+	Can be used for logging purposes.
+
+	*Host: port	
+	This is a must field. By default 80 is considered but in our case 12004.
+
+	If-Match: 
+	Used with a method.
+
+	*If-Modified-Since: Sat, 29 Oct 2021 19:43:31 GMT
+	Used with method to make it conditional.If not modified then 304 will be returned by the server otherwise same as that for GET will be sent.
+
+	If-None-Match: "xyzzy"
+	Used for PUT.When client believes that entity is not present but it is actually present and gets modified.
+
+	*If-Range: entity-tag | HTTP-date
+	If entity is unchanged, send me the parts that I am missing or send entire new entity. It shd be used only with Range header and ignored if not present.If matched then 206 else 200.
+
+	*If-Unmodified-Since: HTTP-date
+	if not madified then 412. If date invalid request ignored.
+
+	*Range: #doubtful abt it
+	Apply to sequence of bytes in entity-body. 
+
+	Referer: absoluteURI | relativeURI
+	Can be used for logging.
+
+	TE: trailers | transfer-extension(deflate;q=0.5)
+	Extension transfer-codings it will accept in response also if it wants to accept trailer fields in chunked transfer-coding. MUST be supplied within a Connection header field. chunked transfer-coding is always acceptable.If no TE then chunked only.
+
+	*User-Agent: 
+	Info about user agent originating the request.
+
+3. Response :
+
+	Status-Line = http-version Status-Code Reason-Phrase \r\n
+
+Response header fields:
+
+	*Accept-Ranges: range-unit (bytes) | none
+	Servers that donot accept any kind of range request may send none.
+
+	Age: delta-seconds
+	A server that includes cache should have Age header field in every response.
+
+	*ETag: "xyzzy" | w/"xxyyxx" | ""
+	Current value of the entity tag for the requested variant. May be used for comparision with other entities.
+
+	*Location: absoluteURI
+	Redirect recipient to other location for completion of request. 201 for new resource uri created. 3xx for redirection.
+
+	Retry-After: http-date | delta-seconds
+	Can be used with 503 , also an be used with 3xx redirection i.e min time before redirecting request.
+
+	*Server: CERN/3.0/2.14
+	Can make server vulernable to attacks.
+
+	Vary: "*" | field name
+		* - a cache cant determine from request headers if this response is a appropriate request. It can be only genersted by origin server not proxy.
+
+	WWW-Autheticate: challenge
+	Indicates scheme and parameters for request uri.
+
+
+Entity:	Request & response msg may transfer an entity not in request method or response code.
+
+4. Entity header field:
+
+	*Allow: GET, HEAD, PUT
+	List of methods that are supported by server
+
+	*Content-Encoding: content-gzip
+	Used as a modifier to media-type. Indicates what content coding has been applied to entity-body. If content-coding not acceptable then 415.
+
+	Content-Language: da
+	To allow users to differetiate entities according to their language.
+
+	*Content-Length: 3464
+	Size of entity body. In case of HEAD. Rules for msg length.
+
+	*Content-Location: 
+	It states the location of the resource to the entity at the time of request. But in future requests may be satisfied by the requested uri. This is undefined in case of PUT or POST.
+
+	*Content-MD5:
+
+	*Content-Range:
+
+	*Content-Type:
+
+	*Expires: HTTP-date
+
+	*Last-Modified: 
+
+
+Status Codes:
+
+1xx: Only status line and optional headers
+
+100 Continue :  
