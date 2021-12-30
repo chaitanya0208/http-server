@@ -36,9 +36,9 @@ if (method allowed) and (http-version supported) :
   
    continue
    
-   else:
+  else:
    
-    connection close
+   connection close
   
   else:
   
